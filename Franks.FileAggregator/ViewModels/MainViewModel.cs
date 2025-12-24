@@ -23,6 +23,7 @@ public sealed class MainViewModel : ObservableObject
     private string _summaryText = string.Empty;
     private bool _isBusy;
     private bool _isCounting;
+    private bool _isUnAuthorizedAccess;
 
     public MainViewModel(IFileCopyService fileCopyService, IDialogService dialogService)
     {
@@ -35,6 +36,8 @@ public sealed class MainViewModel : ObservableObject
         BrowseTargetCommand = new RelayCommand(BrowseTarget, () => IsIdle);
         StartCopyCommand = new AsyncRelayCommand(StartCopyAsync, CanStartCopy);
         CancelCommand = new RelayCommand(CancelCopy, () => IsBusy);
+
+        UpdateIdleStatus();
     }
 
     public RelayCommand BrowseSourceCommand { get; }
@@ -53,6 +56,7 @@ public sealed class MainViewModel : ObservableObject
             {
                 _ = RefreshFileCountAsync();
                 RaiseCommandStates();
+                UpdateIdleStatus();
             }
         }
     }
@@ -65,6 +69,7 @@ public sealed class MainViewModel : ObservableObject
             if (SetProperty(ref _targetPath, value?.Trim()))
             {
                 RaiseCommandStates();
+                UpdateIdleStatus();
             }
         }
     }
@@ -138,6 +143,27 @@ public sealed class MainViewModel : ObservableObject
             if (SetProperty(ref _isCounting, value))
             {
                 RaiseCommandStates();
+
+                if (!value)
+                {
+                    UpdateIdleStatus();
+                }
+            }
+        }
+    }
+
+    public bool IsUnAuthorizedAccess {
+        get => _isUnAuthorizedAccess;
+        private set
+        {
+            if (SetProperty(ref _isUnAuthorizedAccess, value))
+            {
+                RaiseCommandStates();
+
+                if (value)
+                {
+                    UpdateIdleStatus();
+                }
             }
         }
     }
@@ -164,6 +190,7 @@ public sealed class MainViewModel : ObservableObject
         CopiedFiles = 0;
         CurrentIndex = 0;
         ProgressValue = 0;
+        IsUnAuthorizedAccess = false;
         SummaryText = string.Empty;
 
         if (string.IsNullOrWhiteSpace(SourcePath) || !Directory.Exists(SourcePath))
@@ -184,6 +211,11 @@ public sealed class MainViewModel : ObservableObject
                 TotalFiles = count;
             }
         }
+        catch(UnauthorizedAccessException)
+        {
+            IsUnAuthorizedAccess = true;
+            
+        }
         catch (OperationCanceledException)
         {
             // Swallow cancellation
@@ -195,6 +227,8 @@ public sealed class MainViewModel : ObservableObject
                 IsCounting = false;
                 _countCts.Dispose();
                 _countCts = null;
+
+                UpdateIdleStatus();
             }
         }
     }
@@ -293,7 +327,7 @@ public sealed class MainViewModel : ObservableObject
 
         if (!Directory.Exists(TargetPath))
         {
-            var create = _dialogService.Confirm($"Zielverzeichnis '{TargetPath}' anlegen?", "Ziel anlegen");
+            var create = _dialogService.Confirm($"Zielverzeichnis '{TargetPath}' anlegen?", "Zielverzeichnis existiert nicht");
             if (!create)
             {
                 return false;
@@ -331,5 +365,45 @@ public sealed class MainViewModel : ObservableObject
         BrowseTargetCommand.RaiseCanExecuteChanged();
         StartCopyCommand.RaiseCanExecuteChanged();
         CancelCommand.RaiseCanExecuteChanged();
+    }
+
+    private void UpdateIdleStatus()
+    {
+        if (IsBusy)
+        {
+            return;
+        }
+
+        if (IsUnAuthorizedAccess)
+        {
+            StatusText = "Keine Dateizahl verfuegbar. Grund: Zugriff auf einige Ordner/Dateien wurde verweigert.";
+            return;
+        }
+
+        if(IsCounting)
+        {
+            StatusText = "Zähle Dateien...";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(SourcePath) || !Directory.Exists(SourcePath))
+        {
+            StatusText = "Bitte Quell-Verzeichnis wählen";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(TargetPath))
+        {
+            StatusText = "Bitte Ziel-Verzeichnis wählen";
+            return;
+        }
+
+        if (CanStartCopy())
+        {
+            StatusText = "Bereit...";
+            return;
+        }
+
+        StatusText = string.Empty;
     }
 }
