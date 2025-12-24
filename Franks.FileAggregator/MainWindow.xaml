@@ -33,7 +33,10 @@
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding FileCountText}" FontWeight="SemiBold" />
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Vertical" Margin="0,8,0,8">
-            <ProgressBar Height="18" Minimum="0" Maximum="100" Value="{Binding ProgressValue, Mode=OneWay}" IsIndeterminate="{Binding IsCounting, Mode=OneWay}" Margin="0,0,0,4" />
+            <Grid Height="18" Margin="0,0,0,4">
+                <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressValue, Mode=OneWay}" IsIndeterminate="{Binding IsCounting, Mode=OneWay}" />
+                <TextBlock Text="{Binding ProgressValue, Mode=OneWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" FontWeight="SemiBold" Foreground="Black" />
+            </Grid>
             <TextBlock Text="{Binding StatusText}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=StackPanel}}" />
         </StackPanel>
 
