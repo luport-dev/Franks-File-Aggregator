@@ -4,6 +4,7 @@ D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\bin\Debug\net8.0-w
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\bin\Debug\net8.0-windows\Franks.FileAggregator.dll
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\bin\Debug\net8.0-windows\Franks.FileAggregator.pdb
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\MainWindow.baml
+D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\App.baml
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\MainWindow.g.cs
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\App.g.cs
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\Franks.FileAggregator_MarkupCompile.cache
@@ -18,4 +19,3 @@ D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-w
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\Franks.FileAggregator.pdb
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\Franks.FileAggregator.genruntimeconfig.cache
 D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\ref\Franks.FileAggregator.dll
-D:\Projects\.Net\Franks-File-Aggregator\Franks.FileAggregator\obj\Debug\net8.0-windows\App.baml
