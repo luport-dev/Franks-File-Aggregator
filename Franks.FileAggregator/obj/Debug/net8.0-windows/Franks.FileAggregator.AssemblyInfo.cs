@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Franks.FileAggregator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d4fa938b667ce33e7b3aad8c3cf6a2e29e82741e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79fcc8cd8710d6c97cd4c4fab910dc8a5e5bc878")]
 [assembly: System.Reflection.AssemblyProductAttribute("Franks.FileAggregator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Franks.FileAggregator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
