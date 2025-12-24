@@ -34,7 +34,7 @@
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Vertical" Margin="0,8,0,8">
             <ProgressBar Height="18" Minimum="0" Maximum="100" Value="{Binding ProgressValue, Mode=OneWay}" IsIndeterminate="{Binding IsCounting, Mode=OneWay}" Margin="0,0,0,4" />
-            <TextBlock Text="{Binding StatusText}" />
+            <TextBlock Text="{Binding StatusText}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=StackPanel}}" />
         </StackPanel>
 
         <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
