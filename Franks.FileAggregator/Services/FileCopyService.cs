@@ -19,8 +19,13 @@ public sealed class FileCopyService : IFileCopyService
 
         var normalizedSource = Path.GetFullPath(source);
         var normalizedTarget = Path.GetFullPath(target);
+        Directory.CreateDirectory(normalizedTarget);
 
-        var files = Directory.EnumerateFiles(normalizedSource, "*", SearchOption.AllDirectories).ToList();
+        var files = Directory
+            .EnumerateFileSystemEntries(normalizedSource, "*", SearchOption.AllDirectories)
+            .Where(File.Exists)
+            .ToList();
+            
         var result = new CopyResult
         {
             StartedAt = DateTimeOffset.Now,
@@ -37,14 +42,8 @@ public sealed class FileCopyService : IFileCopyService
             }
 
             index++;
-            var relative = Path.GetRelativePath(normalizedSource, file);
-            var destination = Path.Combine(normalizedTarget, relative);
-            var destinationFolder = Path.GetDirectoryName(destination);
-            if (!string.IsNullOrWhiteSpace(destinationFolder))
-            {
-                Directory.CreateDirectory(destinationFolder);
-            }
-
+            var destination = Path.Combine(normalizedTarget, Path.GetFileName(file));
+            
             try
             {
                 await CopyFileAsync(file, destination, cancellationToken).ConfigureAwait(false);
