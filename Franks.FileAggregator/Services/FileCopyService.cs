@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Franks.FileAggregator.Models;
 
 namespace Franks.FileAggregator.Services;
@@ -22,8 +17,7 @@ public sealed class FileCopyService : IFileCopyService
         Directory.CreateDirectory(normalizedTarget);
 
         var files = Directory
-            .EnumerateFileSystemEntries(normalizedSource, "*", SearchOption.AllDirectories)
-            .Where(File.Exists)
+            .EnumerateFiles(normalizedSource, "*", SearchOption.AllDirectories)
             .ToList();
             
         var result = new CopyResult

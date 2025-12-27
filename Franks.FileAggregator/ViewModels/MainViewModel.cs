@@ -152,7 +152,8 @@ public sealed class MainViewModel : ObservableObject
         }
     }
 
-    public bool IsUnAuthorizedAccess {
+    public bool IsUnAuthorizedAccess
+    {
         get => _isUnAuthorizedAccess;
         private set
         {
@@ -204,17 +205,17 @@ public sealed class MainViewModel : ObservableObject
 
         try
         {
-            var count = await Task.Run(() => Directory.EnumerateFiles(SourcePath!, "*", SearchOption.AllDirectories).Count(), localCts.Token);
+            var count = await Task.Run(() => Directory.EnumerateFiles(SourcePath, "*",SearchOption.AllDirectories).Count(), localCts.Token);
 
             if (!localCts.IsCancellationRequested)
             {
                 TotalFiles = count;
             }
         }
-        catch(UnauthorizedAccessException)
+        catch (UnauthorizedAccessException)
         {
             IsUnAuthorizedAccess = true;
-            
+
         }
         catch (OperationCanceledException)
         {
@@ -380,7 +381,7 @@ public sealed class MainViewModel : ObservableObject
             return;
         }
 
-        if(IsCounting)
+        if (IsCounting)
         {
             StatusText = "Zähle Dateien...";
             return;
